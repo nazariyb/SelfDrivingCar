@@ -6,6 +6,7 @@
 #include "WheeledVehiclePawn.h"
 #include "SelfDrivingCarPawn.generated.h"
 
+class UArrowComponent;
 class UCameraComponent;
 class USpringArmComponent;
 class UInputAction;
@@ -13,6 +14,24 @@ class UChaosWheeledVehicleMovementComponent;
 struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateVehicle, Log, All);
+
+UENUM(BlueprintType)
+enum class EDistanceSenseType : uint8
+{
+	Front,
+	Rear,
+	Left,
+	Right
+};
+
+USTRUCT(BlueprintType)
+struct FSDArrowComponentsArray
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<UArrowComponent*> Arrows;
+};
 
 /**
  *  Vehicle Pawn class
@@ -74,6 +93,12 @@ protected:
 	/** Reset Vehicle Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	UInputAction* ResetVehicleAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Sense)
+	TMap<EDistanceSenseType, FFloatCurve> DistanceCheckBySpeed;
+
+	UPROPERTY(Transient, BlueprintReadWrite, Category = Sense)
+	TMap<EDistanceSenseType, FSDArrowComponentsArray> DistanceCheckDirections;
 
 	/** Keeps track of which camera is active */
 	bool bFrontCameraActive = false;

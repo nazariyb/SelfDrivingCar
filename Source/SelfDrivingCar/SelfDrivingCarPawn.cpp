@@ -10,6 +10,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "ChaosWheeledVehicleMovementComponent.h"
+#include "Components/ArrowComponent.h"
 
 #define LOCTEXT_NAMESPACE "VehiclePawn"
 
@@ -105,6 +106,38 @@ void ASelfDrivingCarPawn::Tick(float Delta)
 	CameraYaw = FMath::FInterpTo(CameraYaw, 0.0f, Delta, 1.0f);
 
 	BackSpringArm->SetRelativeRotation(FRotator(0.0f, CameraYaw, 0.0f));
+
+	// Distance checks
+	for (const auto& [DirType, DirArrows] : DistanceCheckDirections)
+	{
+		for (const UArrowComponent* DirArrow : DirArrows.Arrows)
+		{
+			if (!DirArrow)
+			{
+				continue;
+			}
+
+			const FVector Start = DirArrow->GetComponentLocation();
+			const FVector End = Start + DirArrow->GetForwardVector() * 100.0f;
+			FHitResult Hit;
+			FCollisionQueryParams Params;
+			Params.AddIgnoredActor(this);
+			TArray<UPrimitiveComponent*> Components;
+			GetComponents(Components);
+			Params.AddIgnoredComponents(Components);
+			const bool bHit = GetWorld()->LineTraceSingleByObjectType(Hit, Start, End, ECC_GameTraceChannel1, Params);
+
+			if (bHit)
+			{
+				DrawDebugLine(GetWorld(), Start, Hit.Location, FColor::Red);
+				DrawDebugPoint(GetWorld(), Hit.Location, 10.0f, FColor::Red);
+			}
+			else
+			{
+				DrawDebugLine(GetWorld(), Start, End, FColor::Green);
+			}
+		}
+	}
 }
 
 void ASelfDrivingCarPawn::Steering(const FInputActionValue& Value)
