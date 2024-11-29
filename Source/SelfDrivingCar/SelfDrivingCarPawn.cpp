@@ -11,6 +11,8 @@
 #include "InputActionValue.h"
 #include "ChaosWheeledVehicleMovementComponent.h"
 #include "Components/ArrowComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Learning/SdLearningAgentsManager.h"
 
 #define LOCTEXT_NAMESPACE "VehiclePawn"
 
@@ -90,6 +92,22 @@ void ASelfDrivingCarPawn::SetupPlayerInputComponent(class UInputComponent* Playe
 	else
 	{
 		UE_LOG(LogTemplateVehicle, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
+	}
+}
+
+void ASelfDrivingCarPawn::BeginPlay()
+{
+	Super::BeginPlay();
+
+	TArray<AActor*> LearningManagers;
+	UGameplayStatics::GetAllActorsWithTag(this, "LearningAgentManager", LearningManagers);
+	for (AActor* LearningManager : LearningManagers)
+	{
+		if (auto* ManagerComp = LearningManager->GetComponentByClass<USdLearningAgentsManager>())
+		{
+			ManagerComp->AddAgent(this);
+		}
+		
 	}
 }
 
