@@ -6,6 +6,7 @@
 #include "WheeledVehiclePawn.h"
 #include "SelfDrivingCarPawn.generated.h"
 
+class USplineComponent;
 class UArrowComponent;
 class UCameraComponent;
 class USpringArmComponent;
@@ -118,6 +119,8 @@ public:
 	virtual void Tick(float Delta) override;
 
 	// End Actor interface
+
+	void ResetToRandomPointOnSpline(USplineComponent* Spline);
 
 protected:
 

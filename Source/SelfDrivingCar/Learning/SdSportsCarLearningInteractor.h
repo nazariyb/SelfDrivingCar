@@ -31,6 +31,9 @@ class SELFDRIVINGCAR_API USdSportsCarLearningInteractor : public ULearningAgents
 		const FLearningAgentsActionObjectElement& InActionObjectElement,
 		const int32 AgentId) override;
 
+public:
 	UPROPERTY(Transient)
 	USplineComponent* TrackSpline = nullptr;
+
+	TArray<float> TrackDistanceSamples;
 };

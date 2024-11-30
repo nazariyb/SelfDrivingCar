@@ -3,6 +3,8 @@
 
 #include "SdLearningAgentsManager.h"
 
+#include "Kismet/GameplayStatics.h"
+
 
 // Sets default values for this component's properties
 USdLearningAgentsManager::USdLearningAgentsManager()
@@ -20,8 +22,6 @@ void USdLearningAgentsManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
 }
 
 

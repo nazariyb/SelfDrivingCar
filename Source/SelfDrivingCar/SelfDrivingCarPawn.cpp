@@ -11,6 +11,7 @@
 #include "InputActionValue.h"
 #include "ChaosWheeledVehicleMovementComponent.h"
 #include "Components/ArrowComponent.h"
+#include "Components/SplineComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Learning/SdLearningAgentsManager.h"
 
@@ -100,14 +101,13 @@ void ASelfDrivingCarPawn::BeginPlay()
 	Super::BeginPlay();
 
 	TArray<AActor*> LearningManagers;
-	UGameplayStatics::GetAllActorsWithTag(this, "LearningAgentManager", LearningManagers);
+	UGameplayStatics::GetAllActorsWithTag(this, "LearningAgentsManager", LearningManagers);
 	for (AActor* LearningManager : LearningManagers)
 	{
 		if (auto* ManagerComp = LearningManager->GetComponentByClass<USdLearningAgentsManager>())
 		{
 			ManagerComp->AddAgent(this);
 		}
-		
 	}
 }
 
@@ -156,6 +156,24 @@ void ASelfDrivingCarPawn::Tick(float Delta)
 			}
 		}
 	}
+}
+
+void ASelfDrivingCarPawn::ResetToRandomPointOnSpline(USplineComponent* Spline)
+{
+	const float SplineLength = Spline->GetSplineLength();
+	const float RandDistance = FMath::FRandRange(0.0f, SplineLength - 1.0f);
+
+	const FVector Location = Spline->GetLocationAtDistanceAlongSpline(RandDistance, ESplineCoordinateSpace::World);
+
+	FRotator Rotation = Spline->GetRotationAtDistanceAlongSpline(RandDistance, ESplineCoordinateSpace::World);
+	Rotation = FRotator(0.0f, Rotation.Yaw, 0.0f);
+
+	DrawDebugSphere(GetWorld(), Location, 20, 20, FColor::Green, false, 10);
+
+	const FTransform NewTransform(Rotation, Location);
+	SetActorTransform(NewTransform, false, nullptr, ETeleportType::TeleportPhysics);
+	GetMesh()->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
+	GetMesh()->SetPhysicsLinearVelocity(FVector::ZeroVector);
 }
 
 void ASelfDrivingCarPawn::Steering(const FInputActionValue& Value)

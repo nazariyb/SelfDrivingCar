@@ -6,6 +6,11 @@ public class SelfDrivingCar : ModuleRules
 {
 	public SelfDrivingCar(ReadOnlyTargetRules Target) : base(Target)
 	{
+		PrivateDependencyModuleNames.AddRange(new string[]
+		{
+			"LearningAgentsTraining"
+		});
+
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[]
