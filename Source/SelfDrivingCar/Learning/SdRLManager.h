@@ -50,81 +50,81 @@ protected:
 	UPROPERTY(Transient)
 	TArray<AActor*> CarActors;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Coomponents")
+	UPROPERTY(EditAnywhere, Category = "Learning|Coomponents")
 	USdLearningAgentsManager* AgentsManager = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Coomponents")
+	UPROPERTY(EditAnywhere, Category = "Learning|Coomponents")
 	USdSportsCarLearningInteractor* SportsCarLearningInteractor = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Coomponents")
+	UPROPERTY(EditAnywhere, Category = "Learning|Coomponents")
 	USdSportsCarLearningEnv* SportsCarLearningEnv = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Coomponents")
+	UPROPERTY(EditAnywhere, Category = "Learning|Coomponents")
 	ULearningAgentsPolicy* AgentsPolicy = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Coomponents")
+	UPROPERTY(EditAnywhere, Category = "Learning|Coomponents")
 	ULearningAgentsCritic* AgentsCritic = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Coomponents")
+	UPROPERTY(EditAnywhere, Category = "Learning|Coomponents")
 	ULearningAgentsPPOTrainer* AgentsPPOTrainer = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Settings")
+	UPROPERTY(EditAnywhere, Category = "Learning|Settings")
 	FLearningAgentsPolicySettings AgentsPolicySettings;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Settings")
+	UPROPERTY(EditAnywhere, Category = "Learning|Settings")
 	FLearningAgentsCriticSettings AgentsCriticSettings;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Settings")
+	UPROPERTY(EditAnywhere, Category = "Learning|Settings")
 	FLearningAgentsPPOTrainerSettings AgentsPPOTrainerSettings;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Settings")
+	UPROPERTY(EditAnywhere, Category = "Learning|Settings")
 	FLearningAgentsPPOTrainingSettings AgentsTrainingSettings;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Settings")
+	UPROPERTY(EditAnywhere, Category = "Learning|Settings")
 	FLearningAgentsTrainingGameSettings AgentsGameSettings;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Settings")
+	UPROPERTY(EditAnywhere, Category = "Learning|Settings")
 	FLearningAgentsTrainerProcessSettings AgentsTrainerProcessSettings;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Settings")
+	UPROPERTY(EditAnywhere, Category = "Learning|Settings")
 	FLearningAgentsSharedMemoryCommunicatorSettings AgentsSharedMemorySettings;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Settings")
+	UPROPERTY(EditAnywhere, Category = "Learning|Settings")
 	FLearningAgentsRecorderPathSettings AgentsPathSettings;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning")
+	UPROPERTY(EditAnywhere, Category = "Learning")
 	FLearningAgentsTrainerProcess TrainerProcess;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning")
+	UPROPERTY(EditAnywhere, Category = "Learning")
 	FLearningAgentsCommunicator AgentsCommunicator;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|NNs")
+	UPROPERTY(EditAnywhere, Category = "Learning|NNs")
 	bool bReinitializeEncoderNetwork = true;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|NNs")
+	UPROPERTY(EditAnywhere, Category = "Learning|NNs")
 	bool bReinitializePolicyNetwork = true;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|NNs")
+	UPROPERTY(EditAnywhere, Category = "Learning|NNs")
 	bool bReinitializeDecoderNetwork = true;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|NNs")
+	UPROPERTY(EditAnywhere, Category = "Learning|NNs")
 	bool bReinitializeCriticNetwork = true;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|NNs")
+	UPROPERTY(EditAnywhere, Category = "Learning|NNs")
 	ULearningAgentsNeuralNetwork* EncoderNeuralNetwork = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|NNs")
+	UPROPERTY(EditAnywhere, Category = "Learning|NNs")
 	ULearningAgentsNeuralNetwork* DecoderNeuralNetwork = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|NNs")
+	UPROPERTY(EditAnywhere, Category = "Learning|NNs")
 	ULearningAgentsNeuralNetwork* PolicyNeuralNetwork = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|NNs")
+	UPROPERTY(EditAnywhere, Category = "Learning|NNs")
 	ULearningAgentsNeuralNetwork* CriticNeuralNetwork = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning")
+	UPROPERTY(EditAnywhere, Category = "Learning")
 	bool bRunInference = false;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Learning|Observations")
+	UPROPERTY(EditAnywhere, Category = "Learning|Observations")
 	TArray<float> TrackDistanceSamples;
 };

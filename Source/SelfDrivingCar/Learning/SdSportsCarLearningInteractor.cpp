@@ -81,7 +81,7 @@ void USdSportsCarLearningInteractor::GatherAgentObservation_Implementation(
 			AgentTransform,
 			"LocationAlongSplineObservation",
 			true,
-			nullptr,
+			this,
 			AgentId,
 			TrackSpline->GetLocationAtDistanceAlongSpline(DistAlongSpline, ESplineCoordinateSpace::World),
 			FColor::Cyan);
@@ -92,7 +92,7 @@ void USdSportsCarLearningInteractor::GatherAgentObservation_Implementation(
 			AgentTransform,
 			"DirectionAlongSplineObservation",
 			true,
-			nullptr,
+			this,
 			AgentId,
 			TrackSpline->GetLocationAtDistanceAlongSpline(DistAlongSpline, ESplineCoordinateSpace::World),
 			100.f,
@@ -112,7 +112,15 @@ void USdSportsCarLearningInteractor::GatherAgentObservation_Implementation(
 		InObservationObject, TrackObservations);
 
 	const auto VelocityObs = UtilsObservations::MakeLocationObservation(
-		InObservationObject, AgentActor->GetVelocity(), AgentTransform, "LocationObservation", true, nullptr, AgentId);
+		InObservationObject,
+		AgentTransform.GetLocation(),
+		AgentTransform,
+		"LocationObservation",
+		true,
+		this,
+		AgentId,
+		AgentTransform.GetLocation(),
+		FColor::Green);
 
 	const TMap<FName, FLearningAgentsObservationObjectElement> Observations =
 		{
