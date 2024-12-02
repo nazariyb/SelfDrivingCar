@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "LearningAgentsInteractor.h"
 #include "SdSportsCarLearningInteractor.generated.h"
 
@@ -17,14 +18,14 @@ class SELFDRIVINGCAR_API USdSportsCarLearningInteractor : public ULearningAgents
 		FLearningAgentsObservationSchemaElement& OutObservationSchemaElement,
 		ULearningAgentsObservationSchema* InObservationSchema) override;
 
-	virtual void SpecifyAgentAction_Implementation(
-		FLearningAgentsActionSchemaElement& OutActionSchemaElement,
-		ULearningAgentsActionSchema* InActionSchema) override;
-
 	virtual void GatherAgentObservation_Implementation(
 		FLearningAgentsObservationObjectElement& OutObservationObjectElement,
 		ULearningAgentsObservationObject* InObservationObject,
 		const int32 AgentId) override;
+
+	virtual void SpecifyAgentAction_Implementation(
+		FLearningAgentsActionSchemaElement& OutActionSchemaElement,
+		ULearningAgentsActionSchema* InActionSchema) override;
 
 	virtual void PerformAgentAction_Implementation(
 		const ULearningAgentsActionObject* InActionObject,
@@ -35,5 +36,12 @@ public:
 	UPROPERTY(Transient)
 	USplineComponent* TrackSpline = nullptr;
 
+	UPROPERTY(EditAnywhere)
 	TArray<float> TrackDistanceSamples;
+
+	UPROPERTY(EditAnywhere)
+	FGameplayTagContainer ObservationsToUse;
+
+	UPROPERTY(EditAnywhere)
+	int32 ObstacleDistanceObservationsNum = 7;
 };

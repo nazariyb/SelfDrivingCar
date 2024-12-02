@@ -51,21 +51,27 @@ protected:
 	TArray<AActor*> CarActors;
 
 	UPROPERTY(EditAnywhere, Category = "Learning|Coomponents")
+	TSubclassOf<USdSportsCarLearningInteractor> LearningInteractorClass = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Learning|Coomponents")
+	TSubclassOf<USdSportsCarLearningEnv> LearningEnvClass = nullptr;
+
+	UPROPERTY(Transient, VisibleAnywhere, Category = "Learning|Coomponents")
 	USdLearningAgentsManager* AgentsManager = nullptr;
 
-	UPROPERTY(EditAnywhere, Category = "Learning|Coomponents")
+	UPROPERTY(Transient, VisibleAnywhere, Category = "Learning|Coomponents")
 	USdSportsCarLearningInteractor* SportsCarLearningInteractor = nullptr;
 
-	UPROPERTY(EditAnywhere, Category = "Learning|Coomponents")
+	UPROPERTY(Transient, VisibleAnywhere, Category = "Learning|Coomponents")
 	USdSportsCarLearningEnv* SportsCarLearningEnv = nullptr;
 
-	UPROPERTY(EditAnywhere, Category = "Learning|Coomponents")
+	UPROPERTY(Transient, VisibleAnywhere, Category = "Learning|Coomponents")
 	ULearningAgentsPolicy* AgentsPolicy = nullptr;
 
-	UPROPERTY(EditAnywhere, Category = "Learning|Coomponents")
+	UPROPERTY(Transient, VisibleAnywhere, Category = "Learning|Coomponents")
 	ULearningAgentsCritic* AgentsCritic = nullptr;
 
-	UPROPERTY(EditAnywhere, Category = "Learning|Coomponents")
+	UPROPERTY(Transient, VisibleAnywhere, Category = "Learning|Coomponents")
 	ULearningAgentsPPOTrainer* AgentsPPOTrainer = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = "Learning|Settings")
@@ -125,6 +131,6 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Learning")
 	bool bRunInference = false;
 
-	UPROPERTY(EditAnywhere, Category = "Learning|Observations")
-	TArray<float> TrackDistanceSamples;
+	UPROPERTY(EditAnywhere, Category = "Learning")
+	TArray<AActor*> RespawnPoints;
 };

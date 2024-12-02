@@ -109,6 +109,17 @@ void ASelfDrivingCarPawn::BeginPlay()
 			ManagerComp->AddAgent(this);
 		}
 	}
+
+	for (const auto& [DirType, DirArrows] : DistanceCheckDirections)
+	{
+		for (const UArrowComponent* DirArrow : DirArrows.Arrows)
+		{
+			if (DirArrow && DirArrow->ArrowLength > MaxDistanceCheck)
+			{
+				MaxDistanceCheck = DirArrow->ArrowLength;
+			}
+		}
+	}
 }
 
 void ASelfDrivingCarPawn::Tick(float Delta)
@@ -124,8 +135,11 @@ void ASelfDrivingCarPawn::Tick(float Delta)
 	CameraYaw = FMath::FInterpTo(CameraYaw, 0.0f, Delta, 1.0f);
 
 	BackSpringArm->SetRelativeRotation(FRotator(0.0f, CameraYaw, 0.0f));
+}
 
-	// Distance checks
+void ASelfDrivingCarPawn::CalcDistances()
+{
+	ObservedObstacles.Empty();
 	for (const auto& [DirType, DirArrows] : DistanceCheckDirections)
 	{
 		for (const UArrowComponent* DirArrow : DirArrows.Arrows)
@@ -135,8 +149,9 @@ void ASelfDrivingCarPawn::Tick(float Delta)
 				continue;
 			}
 
+			const FVector RayCastDir = DirArrow->GetForwardVector();
 			const FVector Start = DirArrow->GetComponentLocation();
-			const FVector End = Start + DirArrow->GetForwardVector() * 100.0f;
+			const FVector End = Start + RayCastDir * DirArrow->ArrowLength;
 			FHitResult Hit;
 			FCollisionQueryParams Params;
 			Params.AddIgnoredActor(this);
@@ -144,15 +159,42 @@ void ASelfDrivingCarPawn::Tick(float Delta)
 			GetComponents(Components);
 			Params.AddIgnoredComponents(Components);
 			const bool bHit = GetWorld()->LineTraceSingleByObjectType(Hit, Start, End, ECC_GameTraceChannel1, Params);
+			const bool bRegisteredHit = bHit && (Hit.Normal.Dot(Hit.Normal.GetSafeNormal2D()) > .707);
 
-			if (bHit)
+			const float DesiredDotValueForDir = -FMath::Abs(RayCastDir.Dot(DirArrow->GetRightVector()));
+			if (bRegisteredHit)
 			{
-				DrawDebugLine(GetWorld(), Start, Hit.Location, FColor::Red);
-				DrawDebugPoint(GetWorld(), Hit.Location, 10.0f, FColor::Red);
+				const FSdHitMetaData HitMetaData
+				{
+					.HitDistance = Hit.Distance / MaxDistanceCheck,
+					.HitDotProduct = static_cast<float>(RayCastDir.Dot(Hit.Normal)),
+					.DesiredHitDotProduct = DesiredDotValueForDir,
+					.HitLocation = Hit.Location,
+					.VisualizerLocation = DirArrow->GetComponentLocation()
+				};
+				ObservedObstacles.Add(HitMetaData);
 			}
 			else
 			{
-				DrawDebugLine(GetWorld(), Start, End, FColor::Green);
+				const FSdHitMetaData HitMetaData
+				{
+					.HitDistance = 1.f,
+					.HitDotProduct = DesiredDotValueForDir,
+					.DesiredHitDotProduct = DesiredDotValueForDir,
+					.HitLocation = Hit.Location,
+					.VisualizerLocation = DirArrow->GetComponentLocation()
+				};
+				ObservedObstacles.Add(HitMetaData);
+			}
+
+			if (bRegisteredHit)
+			{
+				DrawDebugLine(GetWorld(), Start, Hit.Location, FColor::Red, false, 0.1f);
+				DrawDebugPoint(GetWorld(), Hit.Location, 10.0f, FColor::Red, false, 0.1f);
+			}
+			else
+			{
+				DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 0.1f);
 			}
 		}
 	}

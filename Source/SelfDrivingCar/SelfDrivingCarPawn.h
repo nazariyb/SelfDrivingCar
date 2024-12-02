@@ -34,6 +34,16 @@ struct FSDArrowComponentsArray
 	TArray<UArrowComponent*> Arrows;
 };
 
+struct FSdHitMetaData
+{
+	float HitDistance;
+	float HitDotProduct;
+	float DesiredHitDotProduct;
+	FVector HitLocation;
+
+	FVector VisualizerLocation;
+};
+
 /**
  *  Vehicle Pawn class
  *  Handles common functionality for all vehicle types,
@@ -101,6 +111,14 @@ protected:
 	UPROPERTY(Transient, BlueprintReadWrite, Category = Sense)
 	TMap<EDistanceSenseType, FSDArrowComponentsArray> DistanceCheckDirections;
 
+public:
+	TArray<FSdHitMetaData> ObservedObstacles;
+
+	FVector PreviousLocation = FVector::ZeroVector;
+	double PreviousMeasureTime = -1.f;
+
+	float MaxDistanceCheck = -1.f;
+
 	/** Keeps track of which camera is active */
 	bool bFrontCameraActive = false;
 
@@ -120,6 +138,7 @@ public:
 
 	// End Actor interface
 
+	void CalcDistances();
 	void ResetToRandomPointOnSpline(USplineComponent* Spline);
 
 protected:

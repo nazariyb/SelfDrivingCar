@@ -54,9 +54,8 @@ void ASdRLManager::BeginPlay()
 	ULearningAgentsManager* AgentsManagerBase = AgentsManager;
 
 	SportsCarLearningInteractor = Cast<USdSportsCarLearningInteractor>(ULearningAgentsInteractor::MakeInteractor(
-		AgentsManagerBase, USdSportsCarLearningInteractor::StaticClass()));
+		AgentsManagerBase, LearningInteractorClass));
 	SportsCarLearningInteractor->TrackSpline = TrackSpline;
-	SportsCarLearningInteractor->TrackDistanceSamples = TrackDistanceSamples;
 
 	ULearningAgentsInteractor* InteractorBase = SportsCarLearningInteractor;
 
@@ -87,9 +86,13 @@ void ASdRLManager::BeginPlay()
 
 	SportsCarLearningEnv = Cast<USdSportsCarLearningEnv>(ULearningAgentsTrainingEnvironment::MakeTrainingEnvironment(
 		AgentsManagerBase,
-		USdSportsCarLearningEnv::StaticClass(),
+		LearningEnvClass,
 		"SportsCarTrainingEnvironment"));
 	SportsCarLearningEnv->TrackSpline = TrackSpline;
+	for (AActor* RespawnPoint : RespawnPoints)
+	{
+		SportsCarLearningEnv->RespawnTransforms.Add(RespawnPoint->GetTransform());
+	}
 
 	TrainerProcess = ULearningAgentsCommunicatorLibrary::SpawnSharedMemoryTrainingProcess(
 		AgentsTrainerProcessSettings, AgentsSharedMemorySettings);

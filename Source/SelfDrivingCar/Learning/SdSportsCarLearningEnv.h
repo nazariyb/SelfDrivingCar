@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "LearningAgentsTraining/Public/LearningAgentsTrainingEnvironment.h"
 #include "SdSportsCarLearningEnv.generated.h"
 
@@ -22,4 +23,12 @@ class SELFDRIVINGCAR_API USdSportsCarLearningEnv : public ULearningAgentsTrainin
 public:
 	UPROPERTY(Transient)
 	USplineComponent* TrackSpline = nullptr;
+
+	UPROPERTY(EditAnywhere)
+	TArray<FTransform> RespawnTransforms;
+
+	UPROPERTY(EditAnywhere)
+	TArray<AActor*> RespawnPoints;
+
+	FGameplayTagContainer RewardsToUse;
 };

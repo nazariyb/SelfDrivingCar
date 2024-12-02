@@ -25,6 +25,7 @@ public class SelfDrivingCar : ModuleRules
 			"LearningAgents",
 			"LearningTraining",
 			"MLAdapter",
+			"GameplayTags",
 		});
 	}
 }

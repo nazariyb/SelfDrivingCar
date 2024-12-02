@@ -1,0 +1,45 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "NativeGameplayTags.h"
+
+
+namespace Sd::Observations
+{
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Spline)
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Spline_Location)
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Spline_Direction)
+
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Car)
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Car_Location)
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Car_Velocity)
+
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Obstacle)
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Obstacle_Distance)
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Obstacle_Angle)
+
+	namespace Inputs
+	{
+
+	}
+}
+
+namespace Sd::Actions
+{
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Steering)
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ThrottleBreak)
+}
+
+namespace Sd::Rewards
+{
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Movement)
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Movement_Delta)
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Movement_Velocity)
+
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(DistanceToFinish)
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(TimeToFinish)
+
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Obstacle)
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Obstacle_Distance)
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Obstacle_Angle)
+}
